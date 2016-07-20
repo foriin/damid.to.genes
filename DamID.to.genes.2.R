@@ -65,7 +65,7 @@ for (i in chroms){
   chrom <- paste0("chr", i)
   domains.chrom <- domains[domains$chr == chrom,] # leave genes and gatcs from current chromosome
   tiles.chrom <- all.tiles[all.tiles$chr == chrom,]
-  domains.chrom$start.idx <- findInterval(domains.chrom$start, tiles.chrom$start) # this determines in which gatcs the gene is located
+  domains.chrom$start.idx <- findInterval(domains.chrom$start, tiles.chrom$start)
   domains.chrom$end.idx <- findInterval(domains.chrom$end, tiles.chrom$start)
   
   domains.chrom$DamID.sig <- 0
@@ -109,3 +109,6 @@ misc.pre <- lapply(misc.info, function(x){
 
 add.info <- do.call("rbind.fill", misc.pre)
 top1000.genes <- cbind(top1000.genes[, -6], add.info)
+
+setwd('~/IMG/DamID/piwi_pind_prof_ryaz/top_genes/')
+write.table(top1000.genes, 'top1k.genes.damid.piwi.domains.csv', sep = ';', row.names = F)
