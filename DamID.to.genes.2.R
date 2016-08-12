@@ -98,8 +98,11 @@ gene.list <- dupe[dupe$score > 0,-c(7,8)]
 gene.list.sorted <- gene.list[order(-gene.list$score),]
 top1000.all <- gene.list.sorted[1:1000,]
 top1000.genes <- gene.list.sorted[gene.list.sorted$type == "gene",][1:1000,]
+top.genes <- gene.list.sorted[gene.list.sorted$type == "gene",]
 
 misc.info <- strsplit(top1000.genes$misc, split = '; *')
+
+misc.info <- strsplit(top.genes$misc, split = '; *')
 
 misc.pre <- lapply(misc.info, function(x){
   a <- data.frame(strsplit(x, ' '), stringsAsFactors = F)
@@ -109,6 +112,8 @@ misc.pre <- lapply(misc.info, function(x){
 
 add.info <- do.call("rbind.fill", misc.pre)
 top1000.genes <- cbind(top1000.genes[, -6], add.info)
+top.genes <- cbind(top.genes[, -6], add.info)
 
 setwd('~/IMG/DamID/piwi_pind_prof_ryaz/top_genes/')
 write.table(top1000.genes, 'top1k.genes.damid.piwi.domains.csv', sep = ';', row.names = F)
+write.table(top.genes, 'top.genes.damid.piwi.domains.csv', sep = ';', row.names = F)
